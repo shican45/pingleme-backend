@@ -1,0 +1,51 @@
+version: 2.1
+
+jobs:
+  lint:
+    docker:
+      - image: golangci/golangci-lint:v1.37-alpine
+
+    steps:
+      - checkout
+      - run: golangci-lint run
+
+  build:
+    docker:
+      - image: circleci/golang:1.15.11
+
+    environment:
+      TEST_RESULTS: "/tmp/test-results"
+      CODECOV_TOKEN: "6ef1638b-f85a-4233-9298-17b3f442efe8"
+
+    steps:
+      - checkout
+      - run: mkdir -p $TEST_RESULTS
+
+      - restore_cache:
+          keys:
+            - go-mod-v4-{{ checksum "go.sum" }}
+
+      - run:
+          name: Install Dependencies
+          command: go mod download
+
+      - run:
+          name: Go Test
+          command:
+            PACKAGE_NAMES=$(go list ./... | circleci tests split --split-by=timings --timings-type=classname)
+            gotestsum --junitfile ${TEST_RESULTS}/gotestsum-report.xml -- -coverprofile=cover.out ./... -- -covermode=atomic -- $PACKAGE_NAMES
+
+      - store_test_results:
+          path: $TEST_RESULTS
+
+      - run:
+          name: Code cov
+          command:
+            bash <(curl -s https://codecov.io/bash)
+
+workflows:
+  version: 2
+  install-run:
+    jobs:
+      - build
+      - lint
