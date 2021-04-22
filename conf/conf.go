@@ -3,7 +3,6 @@
 package conf
 
 import (
-	"PingLeMe-Backend/cache"
 	"PingLeMe-Backend/model"
 	"PingLeMe-Backend/util"
 	"go.uber.org/zap"
@@ -100,5 +99,5 @@ func Init() {
 
 	// 连接数据库
 	model.Database(os.Getenv("MYSQL_DSN"), DBLogLevel)
-	cache.Redis()
+	//cache.Redis()
 }

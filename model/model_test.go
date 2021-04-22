@@ -12,7 +12,7 @@ import (
 type TestRepository struct {
 	repo *Repository
 	mock sqlmock.Sqlmock
-	db *sql.DB
+	db   *sql.DB
 }
 
 func (tRepo *TestRepository) InitTest() error {
