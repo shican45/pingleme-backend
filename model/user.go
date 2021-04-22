@@ -10,9 +10,10 @@ import (
 // User 用户模型
 type User struct {
 	gorm.Model
-	UserName       string
-	PasswordDigest string
-	Role  		   string
+	UID       	   string	`gorm:"type:varchar(9);not null;unique"`
+	PasswordDigest string	`gorm:"type:varchar(16);not null"`
+	Nickname       string	`gorm:"type:varchar(20);not null;unique"`
+	Role  		   uint8	`gorm:"type:int;not null"`
 }
 
 const (
