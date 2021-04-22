@@ -31,7 +31,7 @@ var logger *zap.Logger
 // jsonFormat 是否输出为json格式
 // showLine 显示代码行
 // logInConsole 是否同时输出到控制台
-func InitLogger(logPath string, logLevel int, maxSize, maxBackups, maxAge int, compress, jsonFormat, showLine, logInConsole bool){
+func InitLogger(logPath string, logLevel int, maxSize, maxBackups, maxAge int, compress, jsonFormat, showLine, logInConsole bool) {
 	hook := lumberjack.Logger{
 		Filename:   logPath,    // 日志文件路径
 		MaxSize:    maxSize,    // megabytes
@@ -60,7 +60,7 @@ func InitLogger(logPath string, logLevel int, maxSize, maxBackups, maxAge int, c
 		EncodeLevel:    zapcore.LowercaseLevelEncoder,  // 小写编码器
 		EncodeTime:     zapcore.ISO8601TimeEncoder,     // ISO8601 UTC 时间格式
 		EncodeDuration: zapcore.SecondsDurationEncoder, //
-		EncodeCaller:   zapcore.ShortCallerEncoder,      // 全路径编码器
+		EncodeCaller:   zapcore.ShortCallerEncoder,     // 全路径编码器
 		EncodeName:     zapcore.FullNameEncoder,
 	}
 

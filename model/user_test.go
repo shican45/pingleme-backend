@@ -18,8 +18,8 @@ func TestRepository_GetUser(t *testing.T) {
 	defer tRepo.db.Close()
 
 	t.Run("GetUser", func(t *testing.T) {
-		rows := sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "user_name", "password_digest", "role"}).
-			AddRow(1, time.Now(), time.Now(), time.Now(), "test1", "password", "role1")
+		rows := sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "uid", "password_digest", "nickname", "role"}).
+			AddRow(1, time.Now(), time.Now(), time.Now(), "test1", "password", "nickname", 1)
 
 		tRepo.mock.ExpectQuery("SELECT *").WillReturnRows(rows)
 
@@ -28,7 +28,7 @@ func TestRepository_GetUser(t *testing.T) {
 		if err != nil {
 			t.Error(err)
 		} else {
-			assert.Equal(t, user.UserName, "test1")
+			assert.Equal(t, user.UID, "test1")
 		}
 
 		if err := tRepo.mock.ExpectationsWereMet(); err != nil {
