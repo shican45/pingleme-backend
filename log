@@ -1,5 +1,0 @@
-2021-04-21T20:34:02.893+0800	panic	model/init.go:40	连接数据库不成功	{"error": "Error 1045: Access denied for user 'db_user'@'localhost' (using password: NO)"}
-2021-04-22T16:30:11.720+0800	panic	model/init.go:40	连接数据库不成功	{"error": "default addr for network 'localhost' unknown"}
-2021-04-22T16:31:33.605+0800	panic	model/init.go:40	连接数据库不成功	{"error": "default addr for network 'localhost:3306' unknown"}
-2021-04-22T16:32:27.746+0800	panic	model/init.go:40	连接数据库不成功	{"error": "default addr for network 'http://localhost:3306' unknown"}
-2021-04-22T16:35:22.106+0800	panic	cache/main.go:29	连接Redis不成功	{"error": "dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it."}

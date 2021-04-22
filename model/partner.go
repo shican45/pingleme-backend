@@ -10,5 +10,5 @@ import (
 type Partner struct {
 	gorm.Model
 	Student1ID int `gorm:"type:int;not null"`
-	Student2ID int `gorm:type:int`
+	Student2ID int `gorm:"type:int"`
 }
