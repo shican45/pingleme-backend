@@ -6,7 +6,7 @@ package model
 
 func migration() {
 	// 自动迁移模式
-	_ = Repo.DB.AutoMigrate(&User{}, &Class{}, &EvaluationItemGrade{}, &EvaluationTable{}, &EvaluationItem{}, &Homework{},
-		&ScoringItem{}, &JobSubmission{}, &Partner{}, &Performance{}, &PersonalBlogGrade{}, &Role{}, &Permission{},
-		&Team{}, &TeamBlogGrade{})
+	_ = Repo.DB.AutoMigrate(&User{}, &Class{}, &EvaluationItemScore{}, &EvaluationTable{}, &EvaluationTableItem{}, &Homework{},
+		&ScoringItem{}, &WorkSubmission{}, &Pair{}, &Performance{}, &PersonalBlogScore{}, &Role{}, &Permission{},
+		&Team{}, &TeamBlogScore{})
 }
