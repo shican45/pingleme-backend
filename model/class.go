@@ -20,3 +20,17 @@ func (Repo *Repository) GetClassByID(ID interface{}) (Class, error){
 	result := Repo.DB.First(&class, ID)
 	return class, result.Error
 }
+
+// GetAllTeachers 获得已知班级的所有老师
+func (class *Class) GetAllTeachers() ([]User, error){
+	var teachers []User
+	teachers = class.Teachers
+	return teachers, nil
+}
+
+// GetAllStudents 获得已知班级的所有学生
+func (class *Class) GetAllStudents() ([]User, error){
+	var students []User
+	students = class.Students
+	return students, nil
+}

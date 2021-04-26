@@ -30,3 +30,17 @@ type ScoringItem struct {
 	ParentItemID int    `gorm:"type:int;not null"`
 	Sequence     int    `gorm:"type:int;not null"`
 }
+
+// GetAllHomeworkByClassID 获得某个班级布置的所有作业
+func (Repo *Repository) GetAllHomeworkByClassID(ClassID interface{}) ([]Homework, error){
+	var homework []Homework
+	result := Repo.DB.Where("class_id = ?", ClassID).Find(&homework)
+	return homework, result.Error
+}
+
+// GetAllScoringItemByHomeworkID 获得某个作业的所有评分项
+func (Repo *Repository) GetAllScoringItemByHomeworkID(HomeworkID interface{}) ([]ScoringItem, error){
+	var scoringItem []ScoringItem
+	result := Repo.DB.Where("homework_id = ?", HomeworkID).Find(scoringItem)
+	return scoringItem, result.Error
+}
