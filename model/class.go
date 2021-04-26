@@ -13,3 +13,10 @@ type Class struct {
 	Teachers []User `gorm:"many2many:teacher_class;"`
 	Students []User `gorm:"many2many:student_class;"`
 }
+
+// GetClassByID 通过班级ID获取班级
+func (Repo *Repository) GetClassByID(ID interface{}) (Class, error){
+	var class Class
+	result := Repo.DB.First(&class, ID)
+	return class, result.Error
+}
