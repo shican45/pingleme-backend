@@ -16,16 +16,3 @@ type Team struct {
 	Students      []User `gorm:"many2many:student_team;"`
 }
 
-// GetTeamByNumAndClassID
-func (Repo *Repository) GetTeamByNumAndClassID(Num interface{}, ClassID interface{}) (Team, error){
-	var team Team
-	result := Repo.DB.Where("number = ? and class_id = ?", Num, ClassID).First(&team)
-	return team, result.Error
-}
-
-// GetAllStudents 获得本团队所有的学生
-func (team *Team) GetAllStudents() ([]User, error){
-	var students []User
-	students = team.Students
-	return students, nil
-}
