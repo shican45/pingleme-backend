@@ -3,6 +3,7 @@
 package model
 
 import (
+	"PingLeMe-Backend/util"
 	"database/sql"
 	"github.com/DATA-DOG/go-sqlmock"
 	"gorm.io/driver/mysql"
@@ -29,5 +30,18 @@ func (tRepo *TestRepository) InitTest() error {
 	}
 	tRepo.repo = r
 	tRepo.db = db
+
+	util.InitLogger(
+		"./.log/log.log",
+		util.LevelError,
+		50,
+		0,
+		30,
+		false,
+		false,
+		true,
+		true,
+	)
+
 	return nil
 }

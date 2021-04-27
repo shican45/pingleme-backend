@@ -5,6 +5,7 @@ package conf
 import (
 	"PingLeMe-Backend/model"
 	"PingLeMe-Backend/util"
+	"fmt"
 	"go.uber.org/zap"
 	"gorm.io/gorm/logger"
 	"os"
@@ -33,38 +34,29 @@ func Init() {
 	}
 
 	logMaxSize, err1 := strconv.Atoi(os.Getenv("LOG_MAX_SIZE"))
-	if err1 != nil {
-		panic("env error! failed to set config.")
-	}
 
 	logMaxAge, err2 := strconv.Atoi(os.Getenv("LOG_MAX_AGE"))
-	if err2 != nil {
-		panic("env error! failed to set config.")
-	}
 
 	logMaxBackUp, err3 := strconv.Atoi(os.Getenv("LOG_MAX_BACKUP"))
-	if err3 != nil {
-		panic("env error! failed to set config.")
-	}
 
 	logCompress, err4 := strconv.ParseBool(os.Getenv("LOG_COMPRESS"))
-	if err4 != nil {
-		panic("env error! failed to set config.")
-	}
 
 	logJSONFormat, err5 := strconv.ParseBool(os.Getenv("LOG_JSON_FORMAT"))
-	if err5 != nil {
-		panic("env error! failed to set config.")
-	}
 
 	logShowLines, err6 := strconv.ParseBool(os.Getenv("LOG_SHOW_LINES"))
-	if err6 != nil {
-		panic("env error! failed to set config.")
-	}
 
 	logShowInConsole, err7 := strconv.ParseBool(os.Getenv("LOG_SHOW_IN_CONSOLE"))
-	if err7 != nil {
-		panic("env error! failed to set config.")
+
+	// Set default logger config
+	if err1 != nil || err2 != nil || err3 != nil || err4 != nil || err5 != nil || err6 != nil || err7 != nil {
+		fmt.Println("Warn: Custom log config missing. Using default config.")
+		logMaxSize = 50
+		logMaxAge = 30
+		logMaxBackUp = 0
+		logCompress = false
+		logJSONFormat = false
+		logShowLines = true
+		logShowInConsole = true
 	}
 
 	// 设置日志级别
