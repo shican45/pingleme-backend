@@ -31,7 +31,7 @@ func TestRBAC(t *testing.T) {
 			WithArgs(1).
 			WillReturnRows(
 				sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "type"}).
-					AddRow(1, time.Now(), time.Now(), time.Now(), 1),
+					AddRow(1, AnyTime{}, AnyTime{}, time.Now(), 1),
 			)
 		tRepo.mock.ExpectExec("INSERT INTO user_role").
 			WithArgs(1, 1)
@@ -61,7 +61,7 @@ func TestRBAC(t *testing.T) {
 			WithArgs(1).
 			WillReturnRows(
 				sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "uid", "password_digest", "nickname", "role"}).
-					AddRow(1, time.Now(), time.Now(), time.Now(), "test1", "password", "nickname", 1),
+					AddRow(1, AnyTime{}, AnyTime{}, time.Now(), "test1", "password", "nickname", 1),
 			)
 
 		tRepo.mock.ExpectQuery("SELECT (.+) FROM `user_role`.*").
@@ -73,7 +73,7 @@ func TestRBAC(t *testing.T) {
 		tRepo.mock.ExpectQuery("SELECT (.+) FROM `roles`.*").
 			WillReturnRows(
 				sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "type"}).
-					AddRow(1, time.Now(), time.Now(), time.Now(), 1),
+					AddRow(1, AnyTime{}, AnyTime{}, time.Now(), 1),
 			)
 
 		roles, err := tRepo.repo.GetUserRoles(1)

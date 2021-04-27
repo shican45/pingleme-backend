@@ -99,6 +99,8 @@ func (Repo *Repository) SetRolePermissions(roleDescOrType interface{}, permissio
 			Desc:       roleType,
 			Permission: permissions,
 		}
+	default:
+		return &util.InterfaceTypeErr{Name: reflect.TypeOf(roleDescOrType).String()}
 	}
 
 	result := Repo.DB.Create(rolePermission)
