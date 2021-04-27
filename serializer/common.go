@@ -49,7 +49,7 @@ func CheckLogin() Response {
 func PermissionDenied() Response {
 	return Response{
 		Code: CodeNoRightErr,
-		Msg: "没有权限访问",
+		Msg:  "没有权限访问",
 	}
 }
 

@@ -14,7 +14,7 @@ type User struct {
 	PasswordDigest string `gorm:"type:varchar(16);not null"`
 	Nickname       string `gorm:"type:varchar(20);not null;unique"`
 	Role           uint8  `gorm:"type:int;not null"`
-	Roles		   []Role `gorm:"many2many:user_role"`
+	Roles          []Role `gorm:"many2many:user_role"`
 }
 
 const (

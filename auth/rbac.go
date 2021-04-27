@@ -13,7 +13,7 @@ type RBACAuth struct {
 }
 
 // CheckUserRole 检查用户角色
-func (rbac RBACAuth) CheckUserRole( user model.User, roleDescOrType interface{}) (bool, error) {
+func (rbac RBACAuth) CheckUserRole(user model.User, roleDescOrType interface{}) (bool, error) {
 	roles, err := rbac.GetUserRoles(user.ID)
 	if err != nil {
 		return false, err

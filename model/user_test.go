@@ -40,7 +40,7 @@ func TestUser(t *testing.T) {
 	t.Run("GetUserByUID", func(t *testing.T) {
 		tRepo.mock.ExpectQuery("SELECT (.+) FROM `users` WHERE uid = \\? AND (.*)").
 			WithArgs("1").WillReturnRows(
-				sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "uid", "password_digest", "nickname", "role"}).
+			sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "uid", "password_digest", "nickname", "role"}).
 				AddRow(1, time.Now(), time.Now(), time.Now(), "test1", "password", "nickname", 1))
 
 		user, err := tRepo.repo.GetUserByUID("1")

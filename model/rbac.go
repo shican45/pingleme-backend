@@ -16,13 +16,13 @@ type Role struct {
 	Type       uint8        `gorm:"type:int;not null;unique"`
 	Permission []Permission `gorm:"many2many:role_permission;"`
 	User       []User       `gorm:"many2many:user_role;"`
-	Desc       string		`gorm:"unique;"`
+	Desc       string       `gorm:"unique;"`
 }
 
 // Permission 权限模型
 type Permission struct {
 	gorm.Model
-	Desc string	`gorm:"unique;"`
+	Desc string `gorm:"unique;"`
 	Type uint8  `gorm:"type:int;not null;unique"`
 	Role []Role `gorm:"many2many:role_permission;"`
 }
