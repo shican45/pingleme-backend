@@ -14,6 +14,7 @@ type User struct {
 	PasswordDigest string `gorm:"type:varchar(16);not null"`
 	Nickname       string `gorm:"type:varchar(20);not null;unique"`
 	Role           uint8  `gorm:"type:int;not null"`
+	Roles		   []Role `gorm:"many2many:user_role"`
 }
 
 const (
@@ -21,15 +22,22 @@ const (
 	PassWordCost = 12
 )
 
+type UserRepositoryInterface interface {
+	GetUser(ID interface{}) (User, error)
+	GetUserByUID(UID string) (User, error)
+}
+
 // GetUser 用ID获取用户
-//func GetUser(ID interface{}) (User, error) {
-//	var user User
-//	result := DB.First(&user, ID)
-//	return user, result.Error
-//}
 func (Repo *Repository) GetUser(ID interface{}) (User, error) {
 	var user User
 	result := Repo.DB.First(&user, ID)
+	return user, result.Error
+}
+
+// GetUserByUID 用UID获取用户
+func (Repo *Repository) GetUserByUID(UID string) (User, error) {
+	var user User
+	result := Repo.DB.Where("uid = ?", UID).First(&user)
 	return user, result.Error
 }
 

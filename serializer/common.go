@@ -1,6 +1,8 @@
 package serializer
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 // Response 基础序列化器
 type Response struct {
@@ -29,6 +31,8 @@ const (
 	CodeDBError = 50001
 	// CodeEncryptError 加密失败
 	CodeEncryptError = 50002
+	// CodeInnerError 服务器内部错误
+	CodeInnerError = 500
 	//CodeParamErr 各种奇奇怪怪的参数错误
 	CodeParamErr = 40001
 )
@@ -38,6 +42,14 @@ func CheckLogin() Response {
 	return Response{
 		Code: CodeCheckLogin,
 		Msg:  "未登录",
+	}
+}
+
+// PermissionDenied 没有权限访问
+func PermissionDenied() Response {
+	return Response{
+		Code: CodeNoRightErr,
+		Msg: "没有权限访问",
 	}
 }
 
@@ -68,4 +80,12 @@ func ParamErr(msg string, err error) Response {
 		msg = "参数错误"
 	}
 	return Err(CodeParamErr, msg, err)
+}
+
+// ServerInnerErr 服务器内部错误
+func ServerInnerErr(msg string, err error) Response {
+	if msg == "" {
+		msg = "服务器内部错误"
+	}
+	return Err(CodeInnerError, msg, err)
 }
