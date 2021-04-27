@@ -49,7 +49,7 @@ func (rbac RBACAuth) CheckUserPermission(user model.User, permissionDescOrType i
 	switch permissionDescOrType.(type) {
 	case uint8:
 		for _, p := range permissions {
-			if p.ID == permissionDescOrType {
+			if p.Type == permissionDescOrType {
 				return true, nil
 			}
 		}
