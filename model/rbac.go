@@ -86,17 +86,15 @@ func (Repo *Repository) GetUserRoles(ID interface{}) ([]Role, error) {
 // SetRolePermissions 设置角色权限
 func (Repo *Repository) SetRolePermissions(roleDescOrType interface{}, permissions []Permission) error {
 	var rolePermission Role
-	switch roleDescOrType.(type) {
+	switch desOrType := roleDescOrType.(type) {
 	case uint8:
-		roleType, _ := roleDescOrType.(uint8)
 		rolePermission = Role{
-			Type:       roleType,
+			Type:       desOrType,
 			Permission: permissions,
 		}
 	case string:
-		roleType, _ := roleDescOrType.(string)
 		rolePermission = Role{
-			Desc:       roleType,
+			Desc:       desOrType,
 			Permission: permissions,
 		}
 	default:
