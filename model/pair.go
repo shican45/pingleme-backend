@@ -3,14 +3,15 @@
 package model
 
 import (
+	"errors"
 	"gorm.io/gorm"
 )
 
 // Pair 结对模型
 type Pair struct {
 	gorm.Model
-	Student1ID int `gorm:"type:int;not null;unique_index:studentID"`
-	Student2ID int `gorm:"type:int;unique_index:studentID"`
+	Student1ID int `gorm:"type:int;not null;index:studentID"`
+	Student2ID int `gorm:"type:int;index:studentID"`
 }
 
 // GetPair 用ID获取结对
@@ -25,7 +26,16 @@ func (Repo *Repository) GetPair(ID int) (Pair, error){
 
 // CreatePair 创建结对
 func (Repo *Repository) CreatePair(pair Pair) (Pair, error){
-	result := Repo.DB.Create(&pair)
+	result := Repo.DB.Where("student1_id = ?", pair.Student1ID).Or("student2_id = ?", pair.Student1ID).First(&pair)
+	if result.RowsAffected != 0 {
+		return pair, errors.New("该学生已结对")
+	}
+	result = Repo.DB.Where("student1_id = ?", pair.Student2ID).Or("student2_id = ?", pair.Student2ID).First(&pair)
+	if result.RowsAffected != 0 {
+		return pair, errors.New("该学生已结对")
+	}
+
+	result = Repo.DB.Create(&pair)
 	if result.Error != nil {
 		return Pair{}, result.Error
 	}
@@ -33,13 +43,17 @@ func (Repo *Repository) CreatePair(pair Pair) (Pair, error){
 }
 
 // GetPairByStudentID 根据学生ID获取结对
-func (Repo *Repository) GetPairByStudentID(ID int) (Pair, error){
+func (Repo *Repository) GetPairByStudentID(ID int) (int, error){
 	var pair Pair
-	result := Repo.DB.Where("Student1ID = ?", ID).Or("Student2ID = ?", ID).First(&pair)
+	result := Repo.DB.Where("student1_id = ?", ID).Or("student2_id = ?", ID).First(&pair)
 	if result.Error != nil {
-		return Pair{}, result.Error
+		return 0, result.Error
 	}
-	return pair, nil
+	if pair.Student1ID == ID {
+		return pair.Student2ID, nil
+	} else{
+		return pair.Student1ID, nil
+	}
 }
 
 // DeletePair 根据ID删除结对
@@ -50,7 +64,7 @@ func (Repo *Repository) DeletePair(ID int) error{
 
 // DeletePairByStudentID 根据学生ID删除结对
 func (Repo *Repository) DeletePairByStudentID(ID int) error{
-	result := Repo.DB.Where("Student1ID = ?", ID).Or("Student2ID = ?", ID).Delete(&Pair{})
+	result := Repo.DB.Where("student1_id = ?", ID).Or("student2_id = ?", ID).Delete(&Pair{})
 	return result.Error
 }
 

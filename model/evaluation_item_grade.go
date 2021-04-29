@@ -48,7 +48,7 @@ func (Repo *Repository) UpdateEvaluationItemScore(ID int, grade int) error {
 
 func (Repo *Repository) GetEvaluationItemScores(scoringItemID int, teamID int) ([]EvaluationItemScore, error) {
 	var scores []EvaluationItemScore
-	result := Repo.DB.Where("ScoringItemID = ? AND TeamID = ?", scoringItemID, teamID).Find(&scores)
+	result := Repo.DB.Where("scoring_item_id = ? AND team_id = ?", scoringItemID, teamID).Find(&scores)
 	if result.Error != nil {
 		return []EvaluationItemScore{}, result.Error
 	}
