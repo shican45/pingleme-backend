@@ -35,17 +35,18 @@ func (class *Class) GetAllStudents() ([]User, error){
 	return students, nil
 }
 
+// AddClass 添加一个班级
+func (Repo *Repository) AddClass(name string) error {
+	class := Class{Name: name}
+	result := Repo.DB.Create(&class)
+	return result.Error
+}
+
 // AddTeacher 添加一个老师
 func (class *Class) AddTeacher(teacher User) error{
 	var classID = class.ID
 	var teacherID = teacher.ID
 	result := Repo.DB.Exec("insert into teacher_class(class_id,teacher_id) values(?,?)", classID, teacherID)
-	return result.Error
-}
-
-// AddClass 添加一个班级
-func (Repo *Repository) AddClass(Name string) error {
-	result := Repo.DB.Exec("insert into class(name) values(?)", Name)
 	return result.Error
 }
 
@@ -58,12 +59,12 @@ func (class *Class) AddStudent(student User) error{
 }
 
 // DeleteClass 删除班级
-func (class *Class) DeleteClass() error{
-	result := Repo.DB.Exec("delete from class where class_id = ?", class.ID)
+func (Repo *Repository) DeleteClass(classID interface{}) error{
+	result := Repo.DB.Delete(&Class{}, classID)
 	return result.Error
 }
 
-// DeleteTeacher 删除一个老师
+// DeleteTeacher 删除该班级里的一个老师
 func (class *Class) DeleteTeacher(teacher User) error {
 	var classID = class.ID
 	var teacherID = teacher.ID
@@ -71,7 +72,7 @@ func (class *Class) DeleteTeacher(teacher User) error {
 	return result.Error
 }
 
-// DeleteStudent 删除一个学生
+// DeleteStudent 删除改班级里的一个学生
 func (class *Class) DeleteStudent(student User) error {
 	var classID = class.ID
 	var studentID = student.ID
@@ -80,7 +81,7 @@ func (class *Class) DeleteStudent(student User) error {
 }
 
 // UpdateClassName 修改班级名字
-func (class *Class) UpdateClassName(Name string) error {
-	result := Repo.DB.Exec("update class set name = ?", Name)
+func (class *Class) UpdateClassName(name string) error {
+	result := Repo.DB.Model(&class).Update("name", name)
 	return result.Error
 }

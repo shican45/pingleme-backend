@@ -34,17 +34,17 @@ func (Repo *Repository) GetUser(ID interface{}) (User, error) {
 }
 
 // SetPassword 设置密码
-func (user *User) SetPassword(password string) error {
+func (assistant *User) SetPassword(password string) error {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), PassWordCost)
 	if err != nil {
 		return err
 	}
-	user.PasswordDigest = string(bytes)
+	assistant.PasswordDigest = string(bytes)
 	return nil
 }
 
 // CheckPassword 校验密码
-func (user *User) CheckPassword(password string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(user.PasswordDigest), []byte(password))
+func (assistant *User) CheckPassword(password string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(assistant.PasswordDigest), []byte(password))
 	return err == nil
 }
