@@ -68,6 +68,9 @@ func (Repo *Repository) UpdatePair(ID int, student1ID int, student2ID int) (Pair
 	if student2ID != 0 {
 		pair.Student2ID = student2ID
 	}
-	Repo.DB.Save(&pair)
+	result = Repo.DB.Save(&pair)
+	if result.Error != nil {
+		return Pair{}, result.Error
+	}
 	return pair, nil
 }
