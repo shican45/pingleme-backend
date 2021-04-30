@@ -1,112 +1,34 @@
-//  Copyright (c) 2021 PingLeMe Team. All rights reserved.
-
 package model
 
 import (
-	"gorm.io/gorm"
-	"reflect"
+	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/stretchr/testify/assert"
 	"testing"
+	"time"
 )
 
-func TestClass_GetAllStudents(t *testing.T) {
-	type fields struct {
-		Model    gorm.Model
-		Name     string
-		Teachers []User
-		Students []User
+func TestClass(t *testing.T) {
+	var tRepo TestRepository
+	err := tRepo.InitTest()
+	if err != nil {
+		t.Error(err)
 	}
-	tests := []struct {
-		name    string
-		fields  fields
-		want    []User
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			class := &Class{
-				Model:    tt.fields.Model,
-				Name:     tt.fields.Name,
-				Teachers: tt.fields.Teachers,
-				Students: tt.fields.Students,
-			}
-			got, err := class.GetAllStudents()
-			if (err != nil) != tt.wantErr {
-				t.Errorf("GetAllStudents() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("GetAllStudents() got = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
+	defer tRepo.db.Close()
 
-func TestClass_GetAllTeachers(t *testing.T) {
-	type fields struct {
-		Model    gorm.Model
-		Name     string
-		Teachers []User
-		Students []User
-	}
-	tests := []struct {
-		name    string
-		fields  fields
-		want    []User
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			class := &Class{
-				Model:    tt.fields.Model,
-				Name:     tt.fields.Name,
-				Teachers: tt.fields.Teachers,
-				Students: tt.fields.Students,
-			}
-			got, err := class.GetAllTeachers()
-			if (err != nil) != tt.wantErr {
-				t.Errorf("GetAllTeachers() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("GetAllTeachers() got = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
+	t.Run("GetClassByID", func(t *testing.T) {
+		tRepo.mock.ExpectQuery("SELECT (.+) FROM `class` WHERE `class`.`id` = \\? AND (.*)").
+			WithArgs(1).
+			WillReturnRows(sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "name"}).
+				AddRow(1, time.Now(), time.Now(), time.Now(), "software21class"))
+		class, err := tRepo.repo.GetClassByID(1)
+		if err != nil {
+			t.Error(err)
+		}
 
-func TestRepository_GetClassByID(t *testing.T) {
-	type fields struct {
-		DB *gorm.DB
-	}
-	type args struct {
-		ID interface{}
-	}
-	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    Class
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			Repo := &Repository{
-				DB: tt.fields.DB,
-			}
-			got, err := Repo.GetClassByID(tt.args.ID)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("GetClassByID() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("GetClassByID() got = %v, want %v", got, tt.want)
-			}
-		})
-	}
+		assert.Equal(t, "software21class", class.Name)
+
+		if err := tRepo.mock.ExpectationsWereMet(); err != nil {
+			t.Error(err)
+		}
+	})
 }

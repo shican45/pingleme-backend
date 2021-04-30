@@ -10,12 +10,12 @@ import (
 // Homework 作业模型
 type Homework struct {
 	gorm.Model
-	ClassID   uint       `gorm:"type:int;not null"`
-	Type      uint8     `gorm:"type:int;not null"`
-	Title     string    `gorm:"type:varchar(255);not null"`
-	Content   string    `gorm:"type:text;not null"`
-	StartTime time.Time `gorm:"not null"`
-	EndTime   time.Time `gorm:"not null"`
+	ClassID      uint      `gorm:"type:int;not null"`
+	Type         uint8     `gorm:"type:int;not null"`
+	Title        string    `gorm:"type:varchar(255);not null"`
+	Content      string    `gorm:"type:text;not null"`
+	StartTime    time.Time `gorm:"not null"`
+	EndTime      time.Time `gorm:"not null"`
 	ScoringItems []ScoringItem
 }
 
@@ -27,41 +27,41 @@ type ScoringItem struct {
 	Score        int    `gorm:"type:int;not null"`
 	Option       uint8  `gorm:"type:int;not null"`
 	Note         string `gorm:"type:varchar(255)"`
-	AssistantID  uint    `gorm:"type:int;not null"`
-	ParentItemID uint    `gorm:"type:int;not null"`
+	AssistantID  uint   `gorm:"type:int;not null"`
+	ParentItemID uint   `gorm:"type:int;not null"`
 	Sequence     int    `gorm:"type:int;not null"`
 }
 
 // GetHomeworkByID 获得某个特定ID的作业
-func (Repo *Repository) GetHomeworkByID(ClassID interface{}) (Homework, error){
+func (Repo *Repository) GetHomeworkByID(ClassID interface{}) (Homework, error) {
 	var homework Homework
 	result := Repo.DB.First(&homework, ClassID)
 	return homework, result.Error
 }
 
 // GetAllHomework 获得某个班级布置的所有作业
-func (class *Class) GetAllHomework() ([]Homework, error){
+func (class *Class) GetAllHomework() ([]Homework, error) {
 	var homework []Homework
 	result := Repo.DB.Where("class_id = ?", class.ID).Find(&homework)
 	return homework, result.Error
 }
 
 // GetAllScoringItem 获得某个作业的所有评分项
-func (homework *Homework) GetAllScoringItem() ([]ScoringItem, error){
+func (homework *Homework) GetAllScoringItem() ([]ScoringItem, error) {
 	//var scoringItem []ScoringItem
 	//result := Repo.DB.Where("homework_id = ?", homework.ID).Find(scoringItem)
 	return homework.ScoringItems, nil
 }
 
 // GetAssignedScoringItem 获得分配给某个助教所有的评分项
-func (assistant *User) GetAssignedScoringItem() ([]ScoringItem, error){
+func (assistant *User) GetAssignedScoringItem() ([]ScoringItem, error) {
 	var scoringItem []ScoringItem
 	result := Repo.DB.Where("assistant_id = ?", assistant.ID).Find(scoringItem)
 	return scoringItem, result.Error
 }
 
 // GetSonScoringItems 获得某个评分项的所有下层子项
-func (scoringItem *ScoringItem) GetSonScoringItems() ([]ScoringItem, error){
+func (scoringItem *ScoringItem) GetSonScoringItems() ([]ScoringItem, error) {
 	var scoringItems []ScoringItem
 	result := Repo.DB.Where("parent_item_id = ?", scoringItem.ID).Find(scoringItem)
 	return scoringItems, result.Error
@@ -76,7 +76,7 @@ func (Repo *Repository) AddHomework(classID uint, homeworkType uint8, title stri
 
 // AddScoringItem 增加评分项
 func (homework *Homework) AddScoringItem(description string, score int, option uint8,
-	 note string, assistantID uint, parentItemID uint, sequence int) error {
+	note string, assistantID uint, parentItemID uint, sequence int) error {
 	scoringItem := ScoringItem{HomeworkID: homework.ID, Description: description, Score: score, Option: option,
 		Note: note, AssistantID: assistantID, ParentItemID: parentItemID, Sequence: sequence}
 	result := Repo.DB.Create(&scoringItem)
@@ -104,9 +104,9 @@ func (homework *Homework) UpdateHomework(classID uint, homeworkType uint8, title
 }
 
 // UpdateScoringItem 更改评分项信息
-func (scoringItem *ScoringItem) UpdateScoringItem(homeworkID uint,description string, score int, option uint8,
+func (scoringItem *ScoringItem) UpdateScoringItem(homeworkID uint, description string, score int, option uint8,
 	note string, assistantID uint, parentItemID uint, sequence int) error {
 	result := Repo.DB.Model(&scoringItem).Updates(ScoringItem{HomeworkID: homeworkID, Description: description,
-		Score: score, Option: option, Note: note, AssistantID: assistantID, ParentItemID: parentItemID,Sequence: sequence})
+		Score: score, Option: option, Note: note, AssistantID: assistantID, ParentItemID: parentItemID, Sequence: sequence})
 	return result.Error
 }

@@ -15,21 +15,21 @@ type Class struct {
 }
 
 // GetClassByID 通过班级ID获取班级
-func (Repo *Repository) GetClassByID(ID interface{}) (Class, error){
+func (Repo *Repository) GetClassByID(ID interface{}) (Class, error) {
 	var class Class
 	result := Repo.DB.First(&class, ID)
 	return class, result.Error
 }
 
 // GetAllTeachers 获得该班级的所有老师
-func (class *Class) GetAllTeachers() ([]User, error){
+func (class *Class) GetAllTeachers() ([]User, error) {
 	var teachers []User
 	teachers = class.Teachers
 	return teachers, nil
 }
 
 // GetAllStudents 获得该班级的所有学生
-func (class *Class) GetAllStudents() ([]User, error){
+func (class *Class) GetAllStudents() ([]User, error) {
 	var students []User
 	students = class.Students
 	return students, nil
@@ -43,7 +43,7 @@ func (Repo *Repository) AddClass(name string) error {
 }
 
 // AddTeacher 添加一个老师
-func (class *Class) AddTeacher(teacher User) error{
+func (class *Class) AddTeacher(teacher User) error {
 	var classID = class.ID
 	var teacherID = teacher.ID
 	result := Repo.DB.Exec("insert into teacher_class(class_id,teacher_id) values(?,?)", classID, teacherID)
@@ -51,7 +51,7 @@ func (class *Class) AddTeacher(teacher User) error{
 }
 
 // AddStudent 添加一个学生
-func (class *Class) AddStudent(student User) error{
+func (class *Class) AddStudent(student User) error {
 	var classID = class.ID
 	var studentID = student.ID
 	result := Repo.DB.Exec("insert into teacher_class(class_id,teacher_id) values(?,?)", classID, studentID)
@@ -59,7 +59,7 @@ func (class *Class) AddStudent(student User) error{
 }
 
 // DeleteClass 删除班级
-func (Repo *Repository) DeleteClass(classID interface{}) error{
+func (Repo *Repository) DeleteClass(classID interface{}) error {
 	result := Repo.DB.Delete(&Class{}, classID)
 	return result.Error
 }
