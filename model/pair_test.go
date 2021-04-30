@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func TestPair(t *testing.T){
+func TestPair(t *testing.T) {
 	var tRepo TestRepository
 	err := tRepo.InitTest()
 	if err != nil {
@@ -17,7 +17,7 @@ func TestPair(t *testing.T){
 	}
 	defer tRepo.db.Close()
 
-	t.Run("GetPair", func(t *testing.T){
+	t.Run("GetPair", func(t *testing.T) {
 		rows := sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "student1_id", "student2_id"}).
 			AddRow(1, time.Now(), time.Now(), time.Now(), 1, 2)
 
@@ -37,7 +37,7 @@ func TestPair(t *testing.T){
 		}
 	})
 
-	t.Run("GetPair", func(t *testing.T){
+	t.Run("GetPair", func(t *testing.T) {
 		rows := sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "student1_id", "student2_id"}).
 			AddRow(1, time.Now(), time.Now(), time.Now(), 1, 2)
 

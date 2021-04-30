@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func TestEvaluationItemGrade(t *testing.T){
+func TestEvaluationItemGrade(t *testing.T) {
 	var tRepo TestRepository
 	err := tRepo.InitTest()
 	if err != nil {
@@ -17,7 +17,7 @@ func TestEvaluationItemGrade(t *testing.T){
 	}
 	defer tRepo.db.Close()
 
-	t.Run("GetEvaluationItemScore", func(t *testing.T){
+	t.Run("GetEvaluationItemScore", func(t *testing.T) {
 		rows := sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "score_item_id", "team_id", "uid", "grade"}).
 			AddRow(1, time.Now(), time.Now(), time.Now(), 1, 1, 1, 90)
 
@@ -37,7 +37,7 @@ func TestEvaluationItemGrade(t *testing.T){
 		}
 	})
 
-	t.Run("GetEvaluationItemScores", func(t *testing.T){
+	t.Run("GetEvaluationItemScores", func(t *testing.T) {
 		rows := sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "scoring_item_id", "team_id", "uid", "grade"}).
 			AddRow(1, time.Now(), time.Now(), time.Now(), 1, 1, "1", 90).
 			AddRow(2, time.Now(), time.Now(), time.Now(), 1, 1, "2", 80)

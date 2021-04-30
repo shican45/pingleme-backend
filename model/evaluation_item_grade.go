@@ -35,7 +35,7 @@ func (Repo *Repository) GetEvaluationItemScore(ID int) (EvaluationItemScore, err
 }
 
 // DeleteEvaluationItemScore 根据ID删除评审表项成绩
-func (Repo *Repository) DeleteEvaluationItemScore(ID int) error{
+func (Repo *Repository) DeleteEvaluationItemScore(ID int) error {
 	result := Repo.DB.Delete(&EvaluationItemScore{}, ID)
 	return result.Error
 }
