@@ -36,7 +36,6 @@ func TestTeam(t *testing.T) {
 		}
 	})
 
-
 	//t.Run("SetTeam", func(t *testing.T) {
 	//	team := Team{
 	//		Number:        1,
@@ -81,6 +80,5 @@ func TestTeam(t *testing.T) {
 	//		t.Error(err)
 	//	}
 	//})
-
 
 }

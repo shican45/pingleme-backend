@@ -22,13 +22,13 @@ func (Repo *Repository) GetTeam(ID interface{}) (Team, error) {
 	return team, result.Error
 }
 
-func (Repo *Repository) SetClassNameByID(ID interface{}, name string) (int64,error) {
+func (Repo *Repository) SetClassNameByID(ID interface{}, name string) (int64, error) {
 	var team Team
 	result := Repo.DB.Model(&team).Where("ID = ?", ID).Update("Name", name)
 	return result.RowsAffected, result.Error
 }
 
-func (Repo *Repository) SetTeam(team Team) (int64,error) {
+func (Repo *Repository) SetTeam(team Team) (int64, error) {
 	result := Repo.DB.Create(&team)
 	return result.RowsAffected, result.Error
 }

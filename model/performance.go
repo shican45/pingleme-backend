@@ -20,7 +20,7 @@ func (Repo *Repository) GetPerformance(ID interface{}) (Performance, error) {
 	return performance, result.Error
 }
 
-func (Repo *Repository) SetPerformance(performance Performance) (int64,error) {
+func (Repo *Repository) SetPerformance(performance Performance) (int64, error) {
 	result := Repo.DB.Create(&performance)
 	return result.RowsAffected, result.Error
 }
