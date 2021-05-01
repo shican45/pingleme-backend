@@ -15,4 +15,3 @@ type Team struct {
 	ClassID       int    `gorm:"type:int;not null"`
 	Students      []User `gorm:"many2many:student_team;"`
 }
-
