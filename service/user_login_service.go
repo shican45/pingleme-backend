@@ -6,7 +6,9 @@ import (
 	"PingLeMe-Backend/model"
 	"PingLeMe-Backend/serializer"
 	"PingLeMe-Backend/util"
+	"errors"
 	"go.uber.org/zap"
+	"gorm.io/gorm"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -14,7 +16,8 @@ import (
 
 // UserLoginService 管理用户登录的服务
 type UserLoginService struct {
-	UserName string `form:"user_name" json:"user_name" binding:"required,min=5,max=30"`
+	model.UserRepositoryInterface
+	UID      string `form:"uid" json:"uid" binding:"required,min=5,max=30"`
 	Password string `form:"password" json:"password" binding:"required,min=8,max=40"`
 }
 
@@ -31,9 +34,8 @@ func (service *UserLoginService) setSession(c *gin.Context, user model.User) {
 
 // Login 用户登录函数
 func (service *UserLoginService) Login(c *gin.Context) serializer.Response {
-	var user model.User
-
-	if err := model.Repo.DB.Where("user_name = ?", service.UserName).First(&user).Error; err != nil {
+	user, err := service.GetUserByUID(service.UID)
+	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return serializer.ParamErr("账号或密码错误", nil)
 	}
 
