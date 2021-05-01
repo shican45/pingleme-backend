@@ -26,4 +26,6 @@ func BuildEvaluationTable(tableModel model.EvaluationTable) EvaluationTable {
 	//for index, item := range tableModel.TableItems {
 	//
 	//}
+
+	return EvaluationTable{}
 }

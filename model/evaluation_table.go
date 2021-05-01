@@ -41,3 +41,8 @@ func (Repo *Repository) GetEvaluationTable(ID uint) (EvaluationTable, error) {
 	return table, nil
 }
 
+// SetEvaluationTable 保存评审表
+func (Repo *Repository) SetEvaluationTable(table EvaluationTable) error {
+	result := Repo.DB.Create(&table)
+	return result.Error
+}
