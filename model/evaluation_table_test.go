@@ -14,7 +14,7 @@ func TestEvaluationTable(t *testing.T) {
 		t.Error(err)
 	}
 	defer tRepo.db.Close()
-	
+
 	t.Run("GetEvaluationTable", func(t *testing.T) {
 		tRepo.mock.ExpectQuery("SELECT (.+) FROM `evaluation_tables` WHERE `evaluation_tables`.`id` = \\? AND (.*)").
 			WithArgs(1).

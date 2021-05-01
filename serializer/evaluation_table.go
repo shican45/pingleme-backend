@@ -4,7 +4,7 @@ import "PingLeMe-Backend/model"
 
 // EvaluationTable 评审表序列化器
 type EvaluationTable struct {
-	TableName string `json:"table_name"`
+	TableName  string                `json:"table_name"`
 	TableItems []EvaluationTableItem `json:"table_items"`
 }
 
