@@ -33,9 +33,9 @@ type ScoringItem struct {
 }
 
 // GetHomeworkByID 获得某个特定ID的作业
-func (Repo *Repository) GetHomeworkByID(ClassID interface{}) (Homework, error) {
+func (Repo *Repository) GetHomeworkByID(ID interface{}) (Homework, error) {
 	var homework Homework
-	result := Repo.DB.First(&homework, ClassID)
+	result := Repo.DB.First(&homework, ID)
 	return homework, result.Error
 }
 

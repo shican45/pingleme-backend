@@ -10,6 +10,7 @@ require (
 	github.com/go-playground/validator/v10 v10.5.0
 	github.com/go-redis/redis/v8 v8.8.0
 	github.com/joho/godotenv v1.3.0
+	github.com/stretchr/testify v1.7.0 // indirect
 	go.uber.org/zap v1.16.0
 	golang.org/x/crypto v0.0.0-20210415154028-4f45737414dc
 	gopkg.in/go-playground/assert.v1 v1.2.1
