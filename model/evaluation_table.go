@@ -9,6 +9,7 @@ import (
 // EvaluationTable 评审表模型
 type EvaluationTable struct {
 	gorm.Model
+	TableName  string `gorm:"type:varchar(255);not null"`
 	HomeworkID int `gorm:"type:int;not null"`
 	TeamID     int `gorm:"type:int;not null"`
 	TableItems []EvaluationTableItem
@@ -19,10 +20,10 @@ type EvaluationTableItem struct {
 	gorm.Model
 	EvaluationTableID uint
 	Content           string `gorm:"type:varchar(255);not null"`
-	Score             int    `gorm:"type:int;not null"`
+	Score             int    `gorm:"type:int;not null;default:-1"`
 	Description       string `gorm:"type:text"`
-	ParentItemID      int    `gorm:"type:int;not null"`
-	Sequence          int    `gorm:"type:int;not null"`
+	ParentItemID      int    `gorm:"type:int;not null;default:0"`
+	Index          	  int    `gorm:"type:int;not null;default:0"`
 }
 
 // GetEvaluationTable 获取评审表
