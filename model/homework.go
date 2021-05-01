@@ -68,17 +68,13 @@ func (scoringItem *ScoringItem) GetSonScoringItems() ([]ScoringItem, error) {
 }
 
 // AddHomework 布置新作业
-func (Repo *Repository) AddHomework(classID uint, homeworkType uint8, title string, content string, startTime time.Time, endTime time.Time) error {
-	homework := Homework{ClassID: classID, Type: homeworkType, Title: title, Content: content, StartTime: startTime, EndTime: endTime}
+func (Repo *Repository) AddHomework(homework Homework) error {
 	result := Repo.DB.Create(&homework)
 	return result.Error
 }
 
 // AddScoringItem 增加评分项
-func (homework *Homework) AddScoringItem(description string, score int, option uint8,
-	note string, assistantID uint, parentItemID uint, sequence int) error {
-	scoringItem := ScoringItem{HomeworkID: homework.ID, Description: description, Score: score, Option: option,
-		Note: note, AssistantID: assistantID, ParentItemID: parentItemID, Sequence: sequence}
+func (homework *Homework) AddScoringItem(scoringItem ScoringItem) error {
 	result := Repo.DB.Create(&scoringItem)
 	return result.Error
 }
@@ -96,17 +92,13 @@ func (homework *Homework) DeleteScoringItem(scoringItemID uint) error {
 }
 
 // UpdateHomework 更改作业信息
-func (homework *Homework) UpdateHomework(classID uint, homeworkType uint8, title string,
-	content string, startTime time.Time, endTime time.Time) error {
-	result := Repo.DB.Model(&homework).Updates(Homework{ClassID: classID, Type: homeworkType,
-		Title: title, Content: content, StartTime: startTime, EndTime: endTime})
+func (Repo *Repository) UpdateHomework(homework Homework) error {
+	result := Repo.DB.Model(&homework).Updates(homework)
 	return result.Error
 }
 
 // UpdateScoringItem 更改评分项信息
-func (scoringItem *ScoringItem) UpdateScoringItem(homeworkID uint, description string, score int, option uint8,
-	note string, assistantID uint, parentItemID uint, sequence int) error {
-	result := Repo.DB.Model(&scoringItem).Updates(ScoringItem{HomeworkID: homeworkID, Description: description,
-		Score: score, Option: option, Note: note, AssistantID: assistantID, ParentItemID: parentItemID, Sequence: sequence})
+func (Repo *Repository) UpdateScoringItem(scoringItem ScoringItem) error {
+	result := Repo.DB.Model(&scoringItem).Updates(scoringItem)
 	return result.Error
 }
